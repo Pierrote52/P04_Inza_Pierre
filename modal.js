@@ -130,6 +130,7 @@ document.getElementById('email').addEventListener('change',function(mail){
     email = mail;
 
   } else {
+    email = null;
     responseMail.textContent = "e-mail non-valide";
     responseMail.style.color = "red";
     responseMail.style.display= "block";
@@ -146,7 +147,7 @@ document.getElementById('birthdate').addEventListener('change',function(birth){
   birth.preventDefault();
 
   //Cette RegEx permet de verifier que la date de naissance soit cohérente. 
-  if(/^[1]{1}[9]{1}[1-9]{1}[0-9]{1}[-]{1}/.test(birth.target.value) || /^[2]{1}[0]{1}(([0]{1}[0-9]{1})||([1]{1}[0-4]{1}))[-]{1}/.test(birth.target.value)  ){
+  if(/^[1]{1}[9]{1}[1-9]{1}[0-9]{1}[-]{1}/.test(birth.target.value) || /^[2]{1}[0]{1}(([0]{1}[0-3]{1}))[-]{1}/.test(birth.target.value)  ){
     // console.log(birth.target.value);
     // console.log('Date Ok ');
     birthDay = birth.target.value;
@@ -171,10 +172,15 @@ document.getElementById('birthdate').addEventListener('change',function(birth){
 //fonction qui permet de notifier l'utilisateur que le nombre de tournois effectué n'a pas été enregistré. 
 document.getElementById('quantity').addEventListener('input', function(quantity){
 
-  console.log();
   
 //Verifie que le le nombre de parcours réalisés soient inférieurs à 99 , et que la lettre e ne soit pas mentionnée dans le champ. Cette lettre etant prise en compte à cause de sa signification Exponencielle "e". 
-  if(quantity.data > 99 || quantity.data =="e"||quantity.data ==null){
+  if(quantity.target.value > 99 || quantity.target.value =="e"||quantity.target.value ==null){
+    console.log("PAS OK");
+    console.log(quantity.target.value);
+    console.log('Controle quantity.data >99')
+    console.log(quantity.target.value > 99 );
+    console.log('Controle quanytity.data == null');
+    console.log(quantity.target.value ==null);
     quantityCount = null;
     responseQuantity.textContent = "donnée non-valide";
     responseQuantity.style.color = "red";
@@ -182,6 +188,8 @@ document.getElementById('quantity').addEventListener('input', function(quantity)
 
   } else {
     if(quantity.target.value ==null){quantityCount = 0};
+    console.log("OK");
+    console.log(quantity.target.value);
     quantityCount = quantity.target.value;
     responseQuantity.textContent = "donnée valide";
     responseQuantity.style.color = "green";
@@ -193,6 +201,13 @@ document.getElementById('quantity').addEventListener('input', function(quantity)
 //fonction qui contrôle le nom de la ville et l'ajoute aux villes de participation. 
 document.getElementById('location1').addEventListener('click', function(event){
   participationCitys = event.target.value;
+  if(quantityCount == 0||quantityCount ==null){ 
+    document.getElementById('quantity').value = 1;
+
+    responseQuantity.textContent = "donnée valide";
+  responseQuantity.style.color = "green";
+  responseQuantity.style.display = "block";}
+
 })
 
 //Cette fonction vérifie que les conditions d'utilisations ont bien été acceptées. 
@@ -218,9 +233,11 @@ document.getElementById('submit').addEventListener('click', function(elemnt){
     console.log('Formulaire OK ');
     let form = document.getElementById('formulaire');
     form.style.display = "none";
+    console.log('Last name : ' + lastName + ' / FIrstName : '+firstName +' / email' + email + '/ birthDay : ' + birthDay + '/ acceptConditionsUtilisation : ' + acceptConditionsUtilisation );
+    
 
     document.getElementById('textDeFin').style.display = "block";
-    document.getElementsById('content').style.height = "90%";
+    document.getElementById('content').style.height = "90%";
 
   }else{
     //TODO:Injecter pour les phrases de negativité.
@@ -261,4 +278,39 @@ document.getElementById('submit').addEventListener('click', function(elemnt){
 
 finClick.addEventListener('click',function(){
   modalbg.style.display = "none";
+
+//Mise des inputs à Null . 
+document.getElementById('first').value = null;
+document.getElementById('last').value = null;
+document.getElementById('email').value = null;
+document.getElementById('birthdate').value= null;
+document.getElementById('quantity').value = null;
+document.getElementById('location1').value = null;
+
+//Display none pour les phrases de Vérif. 
+responseBirth.style.display = "none";
+responseConditions.style.display="none";
+responseFirst.style.display = "none";
+responseLast.style.display = "none";
+responseMail.style.display = "none";
+responseQuantity.style.display = "none";
+  //Mise des valiables à null.
+   lastName = null;
+firstName = null;
+ email = null;
+ birthDay = null;
+ quantityCount = 0;
+ participationCitys = null;
+ acceptConditionsUtilisation = true; 
+ abonnementNewsLetter = false;
+
+
+let form = document.getElementById('formulaire');
+form.style.display = "block";
+
+    document.getElementById('textDeFin').style.display = "none";
+    document.getElementById('content').style.height = "auto";
+
+document.getElementById('first').value = null;
+
 })
