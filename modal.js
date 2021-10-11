@@ -45,7 +45,7 @@ let lastName;
 let firstName;
 let email;
 let birthDay;
-let quantityCount = 0;
+var quantityCount = 0;
 let participationCitys;
 let acceptConditionsUtilisation = true; 
 let abonnementNewsLetter = false;
@@ -172,43 +172,48 @@ document.getElementById('birthdate').addEventListener('change',function(birth){
 //fonction qui permet de notifier l'utilisateur que le nombre de tournois effectué n'a pas été enregistré. 
 document.getElementById('quantity').addEventListener('input', function(quantity){
 
-  
 //Verifie que le le nombre de parcours réalisés soient inférieurs à 99 , et que la lettre e ne soit pas mentionnée dans le champ. Cette lettre etant prise en compte à cause de sa signification Exponencielle "e". 
-  if(quantity.target.value > 99 || quantity.target.value =="e"||quantity.target.value ==null){
-    console.log("PAS OK");
+  if(/^[0-9]{2}$/.test(quantity.target.value)||/^[0-9]{1}$/.test(quantity.target.value)){
+    
+
+    console.log("OK");
     console.log(quantity.target.value);
-    console.log('Controle quantity.data >99')
-    console.log(quantity.target.value > 99 );
-    console.log('Controle quanytity.data == null');
-    console.log(quantity.target.value ==null);
-    quantityCount = null;
+    responseQuantity.textContent = "donnée valide";
+    responseQuantity.style.color = "green";
+    responseQuantity.style.display = "block";
+  
+  } else {
+    document.getElementById('quantity').value = '';
+    console.log('pas ok ');
+    console.log(quantity.target.value);
+    //
+    quantity.target.value.replace('');
+
     responseQuantity.textContent = "donnée non-valide";
     responseQuantity.style.color = "red";
     responseQuantity.style.display = "block";
 
-  } else {
-    if(quantity.target.value ==null){quantityCount = 0};
-    console.log("OK");
-    console.log(quantity.target.value);
-    quantityCount = quantity.target.value;
-    responseQuantity.textContent = "donnée valide";
-    responseQuantity.style.color = "green";
-    responseQuantity.style.display = "block";
+
+
+
+
+    //
+    
 
   }
 })
 
 //fonction qui contrôle le nom de la ville et l'ajoute aux villes de participation. 
-document.getElementById('location1').addEventListener('click', function(event){
-  participationCitys = event.target.value;
-  if(quantityCount == 0||quantityCount ==null){ 
-    document.getElementById('quantity').value = 1;
+// document.getElementById('location1').addEventListener('click', function(event){
+//   participationCitys = event.target.value;
+//   if(quantityCount == 0||quantityCount ==null){ 
+//     document.getElementById('quantity').value = 1;
 
-    responseQuantity.textContent = "donnée valide";
-  responseQuantity.style.color = "green";
-  responseQuantity.style.display = "block";}
+//     responseQuantity.textContent = "donnée valide";
+//   responseQuantity.style.color = "green";
+//   responseQuantity.style.display = "block";}
 
-})
+// })
 
 //Cette fonction vérifie que les conditions d'utilisations ont bien été acceptées. 
 document.getElementById('checkbox1').addEventListener('click', function(){
